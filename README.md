@@ -8,16 +8,13 @@ UIKit, вёрстка кодом, iOS 16+, Swift 6 со strict concurrency. Ед
 ## Запуск
 
 1. Откройте `AIStudio.xcodeproj` в Xcode 26 или новее (нужен SDK iOS 26 для Liquid Glass).
-2. Скопируйте `AIStudio/Resources/Config/Secrets.example.xcconfig` в `Secrets.xcconfig` рядом и заполните ключами из задания:
+2. Схема `AIStudio`, любой симулятор, ⌘R.
 
-   ```
-   API_TOKEN = <Bearer-токен без слова Bearer>
-   APPHUD_API_KEY = <ключ Apphud>
-   ```
-
-   Файл в `.gitignore`. Без него приложение запускается и не падает, но API отвечает отказом, а Apphud не стартует;
-   в консоли будут строки `APIToken is empty` и `ApphudAPIKey is empty`.
-3. Схема `AIStudio`, любой симулятор, ⌘R.
+Ключи тестового окружения из задания лежат в `AIStudio/Resources/Config/Secrets.xcconfig`, поэтому проект запускается
+без настройки. Файл добавлен в репозиторий намеренно, только для проверки задания: в рабочем проекте ключи в git
+не хранятся, а `Secrets.xcconfig` создаётся локально по шаблону `Secrets.example.xcconfig`.
+Если ключей нет, приложение не падает, но API отвечает отказом, а Apphud не стартует; в консоли будут строки
+`APIToken is empty` и `ApphudAPIKey is empty`.
 
 Покупки в симуляторе работают через `AIStudio.storekit`, он подключён к схеме. Сбросить тестовые покупки:
 Debug → StoreKit → Manage Transactions.
