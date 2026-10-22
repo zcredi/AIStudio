@@ -1,6 +1,6 @@
 import UIKit
 
-/// Colors from the Figma variables. Values live in `Assets.xcassets`.
+/// Цвета из переменных Figma. Значения лежат в `Assets.xcassets`.
 enum Palette {
     static let background = UIColor(resource: .background)
     static let card = UIColor(resource: .card)
@@ -12,4 +12,9 @@ enum Palette {
     static let separator = UIColor(resource: .separator)
     static let gradientStart = UIColor(resource: .gradientStart)
     static let gradientEnd = UIColor(resource: .gradientEnd)
+    /// Свайп-действия в истории: переименовать и удалить.
+    static let actionOrange = UIColor(resource: .actionOrange)
+    static let actionRed = UIColor(resource: .actionRed)
+    /// `background/dim`: затемняет медиа под контролами паузы и под алертами.
+    static let dim = UIColor(resource: .dim)
 }

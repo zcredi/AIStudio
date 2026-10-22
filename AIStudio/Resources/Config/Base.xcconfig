@@ -1,0 +1,3 @@
+// Ключи лежат в Secrets.xcconfig, который не попадает в git.
+// Скопируйте Secrets.example.xcconfig в Secrets.xcconfig рядом с этим файлом и заполните.
+#include? "Secrets.xcconfig"

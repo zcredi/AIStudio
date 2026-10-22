@@ -1,11 +1,11 @@
 import Foundation
 
-/// A single API call: what to send and which type the response decodes into.
+/// Один вызов API: что отправить и в какой тип декодируется ответ.
 struct Endpoint<Response: Decodable & Sendable>: Sendable {
     // MARK: - Properties
 
     let method: HTTPMethod
-    /// Path relative to the server's base path, e.g. `/dola/chats`.
+    /// Путь относительно базового пути сервера, например `/dola/chats`.
     let path: String
     let queryItems: [URLQueryItem]
     let body: RequestBody?

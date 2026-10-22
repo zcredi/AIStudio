@@ -1,0 +1,66 @@
+{
+  "identifier": "8C9F3A1E",
+  "nonRenewingSubscriptions": [],
+  "products": [],
+  "settings": {
+    "_failTransactionsEnabled": false,
+    "_locale": "en_US",
+    "_storefront": "USA",
+    "_storeKitErrors": []
+  },
+  "subscriptionGroups": [
+    {
+      "id": "21500000",
+      "localizations": [],
+      "name": "Premium",
+      "subscriptions": [
+        {
+          "adHocOffers": [],
+          "codeOffers": [],
+          "displayPrice": "69.99",
+          "familyShareable": false,
+          "groupNumber": 1,
+          "internalID": "6500000001",
+          "introductoryOffer": null,
+          "localizations": [
+            {
+              "description": "Unlimited access to AI chat and video templates",
+              "displayName": "Year",
+              "locale": "en_US"
+            }
+          ],
+          "productID": "com.labs.fviu.yearly",
+          "recurringSubscriptionPeriod": "P1Y",
+          "referenceName": "Year",
+          "subscriptionGroupID": "21500000",
+          "type": "RecurringSubscription"
+        },
+        {
+          "adHocOffers": [],
+          "codeOffers": [],
+          "displayPrice": "7.99",
+          "familyShareable": false,
+          "groupNumber": 2,
+          "internalID": "6500000004",
+          "introductoryOffer": null,
+          "localizations": [
+            {
+              "description": "Unlimited access to AI chat and video templates",
+              "displayName": "Month",
+              "locale": "en_US"
+            }
+          ],
+          "productID": "monthly_subscription",
+          "recurringSubscriptionPeriod": "P1M",
+          "referenceName": "Month",
+          "subscriptionGroupID": "21500000",
+          "type": "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version": {
+    "major": 3,
+    "minor": 0
+  }
+}

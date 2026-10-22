@@ -23,15 +23,15 @@ final class URLSessionAPIClientTests: XCTestCase {
     // MARK: - Request
 
     func test_send_buildsURLFromServerPathAndQuery() async throws {
-        // Given
+        // Дано
         let transport = FakeHTTPTransport(statusCode: 200, json: #"{"text": "hi"}"#)
         let client = URLSessionAPIClient(server: server, transport: transport)
         let endpoint = Endpoint<Greeting>.get("/chats", queryItems: [URLQueryItem(name: "limit", value: "20")])
 
-        // When
+        // Когда
         _ = try await client.send(endpoint)
 
-        // Then
+        // Тогда
         let request = try await lastRequest(of: transport)
         XCTAssertEqual(request.url?.absoluteString, "https://api.example.com/dola/chats?limit=20")
         XCTAssertEqual(request.httpMethod, "GET")

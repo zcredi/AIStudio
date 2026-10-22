@@ -1,6 +1,6 @@
 import UIKit
 
-/// Edge anchors shared by `UIView` and `UILayoutGuide`.
+/// Якоря краёв, общие для `UIView` и `UILayoutGuide`.
 @MainActor
 protocol EdgeAnchorProviding {
     var leadingAnchor: NSLayoutXAxisAnchor { get }
@@ -14,7 +14,7 @@ extension UIView: EdgeAnchorProviding {}
 extension UILayoutGuide: EdgeAnchorProviding {}
 
 extension UIView {
-    /// Pins all four edges to a view or a layout guide. The receiver must already be in the hierarchy.
+    /// Прижимает все четыре края к виду или layout guide. Получатель уже должен быть в иерархии.
     func pinEdges(to target: some EdgeAnchorProviding, insets: NSDirectionalEdgeInsets = .zero) {
         translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

@@ -9,15 +9,15 @@ final class MultipartFormDataTests: XCTestCase {
     }
 
     func test_encoded_withTextAndFile_writesPartsInOrder() {
-        // Given
+        // Дано
         var formData = MultipartFormData(boundary: "XYZ")
         formData.append("42", name: "template_id")
         formData.append(Data("JPEG".utf8), name: "image", fileName: "photo.jpg", mimeType: "image/jpeg")
 
-        // When
+        // Когда
         let body = String(decoding: formData.encoded(), as: UTF8.self)
 
-        // Then
+        // Тогда
         let expected = [
             "--XYZ",
             "Content-Disposition: form-data; name=\"template_id\"",

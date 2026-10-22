@@ -1,6 +1,6 @@
 import Foundation
 
-/// Builds a `multipart/form-data` body (RFC 7578).
+/// Собирает тело `multipart/form-data` (RFC 7578).
 struct MultipartFormData: Sendable {
     // MARK: - Types
 
@@ -55,7 +55,7 @@ struct MultipartFormData: Sendable {
 
     // MARK: - Private
 
-    /// Escapes characters that would break a quoted header parameter, as browsers do.
+    /// Экранирует символы, которые сломали бы параметр заголовка в кавычках, как это делают браузеры.
     private static func quoted(_ value: String) -> String {
         value
             .replacingOccurrences(of: "\"", with: "%22")

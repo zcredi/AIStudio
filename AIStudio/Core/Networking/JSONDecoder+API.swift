@@ -1,8 +1,8 @@
 import Foundation
 
 extension JSONDecoder {
-    /// Decoder for API responses. Dates are ISO 8601 as FastAPI writes them: with or without
-    /// fractional seconds, and naive timestamps without a time zone are read as UTC.
+    /// Декодер для ответов API. Даты в ISO 8601 в том виде, как их пишет FastAPI: с дробными секундами
+    /// или без, а время без часового пояса читается как UTC.
     static func api() -> JSONDecoder {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .custom { decoder in
@@ -28,7 +28,7 @@ private enum APITimestamp {
 
     static func date(from string: String) -> Date? {
         let value = hasTimeZone(string) ? string : string + "Z"
-        // Older systems parse each variant with its own style only, so the second one is a fallback.
+        // Старые системы разбирают каждый вариант только своим стилем, поэтому второй — запасной.
         return (try? withFractionalSeconds.parse(value)) ?? (try? withoutFractionalSeconds.parse(value))
     }
 

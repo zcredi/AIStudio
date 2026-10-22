@@ -1,14 +1,14 @@
 import Foundation
 
-/// Errors thrown by `APIClient`. A cancelled request throws `CancellationError` instead.
+/// Ошибки, которые бросает `APIClient`. Отменённый запрос вместо этого бросает `CancellationError`.
 enum APIError: Error, Equatable, Sendable {
-    /// The request could not be built: invalid URL or a body that failed to encode.
+    /// Запрос не удалось собрать: неверный URL или тело, которое не закодировалось.
     case invalidRequest
     case offline
     case timeout
     case transport(URLError.Code)
     case unauthorized
-    /// HTTP 402: the account has run out of credits for the operation.
+    /// HTTP 402: на аккаунте закончились кредиты на операцию.
     case insufficientCredits
     case notFound
     case validation(message: String?)

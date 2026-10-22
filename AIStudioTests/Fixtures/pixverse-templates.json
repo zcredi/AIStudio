@@ -1,0 +1,40 @@
+{
+  "id": 24,
+  "application_id": "com.test.test",
+  "templates": [
+    {
+      "id": 685,
+      "template_id": 374743997109542,
+      "name": "Dense Snowflakes",
+      "category": "📈 Trending",
+      "qualities": ["1080p", "360p", "8k", "720p"],
+      "duration": 5,
+      "preview_small": "https://media.example.com/small.mp4",
+      "preview_large": "https://media.example.com/large.mp4",
+      "is_active": true
+    },
+    {
+      "id": 317,
+      "template_id": 383217104128057,
+      "name": "Rocky Balboa",
+      "category": "🎬 Film & TV Inspo",
+      "preview_small": "https://media.example.com/rocky.mp4",
+      "is_active": true
+    },
+    {
+      "id": 12,
+      "template_id": 111,
+      "name": "Retired",
+      "category": "📈 Trending",
+      "preview_small": "https://media.example.com/retired.mp4",
+      "is_active": false
+    },
+    {
+      "id": 13,
+      "template_id": 222,
+      "name": "No preview",
+      "category": "📈 Trending",
+      "is_active": true
+    }
+  ]
+}

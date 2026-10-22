@@ -1,38 +1,50 @@
 import UIKit
 
-/// Glass variants used in the app. Liquid Glass on iOS 26, a tinted system blur before that.
+/// Варианты стекла в приложении. Liquid Glass на iOS 26, до неё — тонированный системный блюр.
 @MainActor
 enum GlassMaterial {
-    /// Bars, input fields and floating buttons over regular content.
+    /// Панели, поля ввода и плавающие кнопки поверх обычного контента.
     case regular
-    /// Controls over media or gradients, where the backdrop has to stay visible.
+    /// Контролы поверх медиа или градиентов, где фон должен оставаться видимым.
     case clear
+    /// Меню, которые всплывают поверх контента и должны читаться на любом фоне.
+    case menu
 
     // MARK: - API
 
     func makeEffect() -> UIVisualEffect {
         if #available(iOS 26.0, *) {
-            return UIGlassEffect(style: glassStyle)
+            let effect = UIGlassEffect(style: glassStyle)
+            effect.tintColor = glassTintColor
+            return effect
         }
         return UIBlurEffect(style: .systemUltraThinMaterialDark)
     }
 
-    /// Surface tint from the mockups, laid over the blur on systems without Liquid Glass.
+    /// Тон поверхности из макетов, который кладётся поверх блюра на системах без Liquid Glass.
     var fallbackTintColor: UIColor {
         switch self {
         case .regular:
             Palette.card.withAlphaComponent(0.4)
         case .clear:
             Palette.accent.withAlphaComponent(0.15)
+        case .menu:
+            Palette.card.withAlphaComponent(0.8)
         }
     }
 
     // MARK: - Private
 
+    /// Меню показывают текст поверх любого контента, поэтому их стекло темнее панелей из макета.
+    @available(iOS 26.0, *)
+    private var glassTintColor: UIColor? {
+        self == .menu ? Palette.card.withAlphaComponent(0.6) : nil
+    }
+
     @available(iOS 26.0, *)
     private var glassStyle: UIGlassEffect.Style {
         switch self {
-        case .regular:
+        case .regular, .menu:
             .regular
         case .clear:
             .clear

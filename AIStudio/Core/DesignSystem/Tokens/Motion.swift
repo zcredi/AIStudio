@@ -1,13 +1,13 @@
 import Foundation
 
-/// Animation timings. The mockups are static, so these follow platform defaults.
+/// Тайминги анимаций. Макеты статичные, поэтому значения следуют стандартам платформы.
 enum Motion {
-    /// Press feedback and small toggles.
+    /// Отклик на нажатие и небольшие переключения.
     static let fast: TimeInterval = 0.15
-    /// Crossfades between loading, content and error, and layout changes.
+    /// Кроссфейды между загрузкой, контентом и ошибкой, а также изменения раскладки.
     static let standard: TimeInterval = 0.3
-    /// Damping for springs; skipped entirely when Reduce Motion is on.
+    /// Затухание пружин; при Reduce Motion пружины не используются вовсе.
     static let springDampingRatio: CGFloat = 0.85
-    /// Scale applied to a control while it is highlighted.
+    /// Масштаб контрола, пока он подсвечен.
     static let pressedScale: CGFloat = 0.96
 }

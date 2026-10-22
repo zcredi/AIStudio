@@ -1,15 +1,19 @@
 import Foundation
 
-/// Encodes fields as `application/x-www-form-urlencoded` following the WHATWG URL spec:
-/// everything except `A-Z a-z 0-9 - . _ *` is percent-encoded and spaces become `+`.
+/// Кодирует поля как `application/x-www-form-urlencoded` по спецификации WHATWG URL:
+/// всё, кроме `A-Z a-z 0-9 - . _ *`, кодируется через проценты, а пробелы становятся `+`.
 enum FormURLEncoder {
     // MARK: - API
 
     static func encode(_ fields: [URLQueryItem]) -> Data {
-        let body = fields
+        Data(encodedString(fields).utf8)
+    }
+
+    /// То же кодирование в виде строки; подходит и как query в URL.
+    static func encodedString(_ fields: [URLQueryItem]) -> String {
+        fields
             .map { "\(escape($0.name))=\(escape($0.value ?? ""))" }
             .joined(separator: "&")
-        return Data(body.utf8)
     }
 
     // MARK: - Private
@@ -19,7 +23,7 @@ enum FormURLEncoder {
     )
 
     private static func escape(_ string: String) -> String {
-        // Percent-encoding fails only on unpaired surrogates, which a Swift String cannot hold.
+        // Percent-кодирование падает только на непарных суррогатах, которых не бывает в Swift String.
         let escaped = string.addingPercentEncoding(withAllowedCharacters: unreservedCharacters) ?? string
         return escaped.replacingOccurrences(of: " ", with: "+")
     }

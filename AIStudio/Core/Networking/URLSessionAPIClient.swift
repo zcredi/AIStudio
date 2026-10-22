@@ -26,7 +26,11 @@ final class URLSessionAPIClient: APIClient {
     @concurrent
     func send<Response>(_ endpoint: Endpoint<Response>) async throws -> Response {
         let request = try await makeRequest(for: endpoint)
+        let clock = ContinuousClock()
+        let start = clock.now
         let (data, response) = try await perform(request)
+        // Пути могут содержать ID чатов, поэтому вне отладки они скрыты.
+        logger.info("\(endpoint.method.rawValue, privacy: .public) \(endpoint.path, privacy: .private) -> \(response.statusCode, privacy: .public) in \(start.duration(to: clock.now), privacy: .public)")
         try validate(response, data: data)
         return try decode(Response.self, from: data)
     }
@@ -66,7 +70,7 @@ final class URLSessionAPIClient: APIClient {
         components.path = server.basePath + endpoint.path
         if !endpoint.queryItems.isEmpty {
             components.queryItems = endpoint.queryItems
-            // URLComponents leaves `+` as is, and servers read it as a space.
+            // URLComponents оставляет `+` как есть, а серверы читают его как пробел.
             components.percentEncodedQuery = components.percentEncodedQuery?
                 .replacingOccurrences(of: "+", with: "%2B")
         }

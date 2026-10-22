@@ -1,8 +1,8 @@
 import CoreGraphics
 
-/// Corner radii used in the Figma layouts. Pills and round buttons use `GlassView.Shape.capsule`
-/// or `cornerStyle = .capsule` instead of a fixed value.
+/// Радиусы скругления из макетов Figma. Капсулы и круглые кнопки используют `GlassView.Shape.capsule`
+/// или `cornerStyle = .capsule` вместо фиксированного значения.
 enum Radius {
-    /// Cards, input fields and bottom panels.
+    /// Карточки, поля ввода и нижние панели.
     static let l: CGFloat = 24
 }

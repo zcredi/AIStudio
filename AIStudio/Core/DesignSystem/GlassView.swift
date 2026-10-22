@@ -1,6 +1,6 @@
 import UIKit
 
-/// Surface for controls floating above content. Add subviews to `contentView`.
+/// Поверхность для контролов, парящих над контентом. Сабвью добавлять в `contentView`.
 final class GlassView: UIView {
     // MARK: - Types
 
@@ -46,7 +46,7 @@ final class GlassView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        // Glass on iOS 26 tracks capsule corners itself; the blur fallback needs the current height.
+        // Стекло на iOS 26 само следит за скруглением капсулы; фолбэку с блюром нужна текущая высота.
         if shape == .capsule, !isLiquidGlassAvailable {
             effectView.layer.cornerRadius = bounds.height / 2
         }
@@ -96,7 +96,7 @@ private extension GlassView.Shape {
         }
     }
 
-    /// Radius for the blur fallback; capsules are resolved from the height during layout.
+    /// Радиус для фолбэка с блюром; у капсул он считается от высоты при раскладке.
     var fixedCornerRadius: CGFloat {
         switch self {
         case .rectangle, .capsule:

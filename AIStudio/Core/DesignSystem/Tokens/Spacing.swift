@@ -1,6 +1,6 @@
 import CoreGraphics
 
-/// Spacing scale used in the Figma layouts.
+/// Шкала отступов из макетов Figma.
 enum Spacing {
     static let xxs: CGFloat = 2
     static let xs: CGFloat = 4

@@ -1,5 +1,5 @@
-/// Sends endpoints to one server and decodes their responses.
+/// Отправляет эндпоинты на один сервер и декодирует их ответы.
 protocol APIClient: Sendable {
-    /// Throws `APIError`, or `CancellationError` when the calling task is cancelled.
+    /// Бросает `APIError` или `CancellationError`, если вызывающую задачу отменили.
     func send<Response>(_ endpoint: Endpoint<Response>) async throws -> Response
 }

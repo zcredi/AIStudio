@@ -1,7 +1,7 @@
 import Foundation
 
-/// Error payload returned by the API: either `{"detail": "..."}` or a FastAPI validation
-/// error `{"detail": [{"loc": [...], "msg": "...", "type": "..."}]}`.
+/// Тело ошибки от API: либо `{"detail": "..."}`, либо ошибка валидации FastAPI
+/// `{"detail": [{"loc": [...], "msg": "...", "type": "..."}]}`.
 struct ServerErrorBody: Decodable, Sendable {
     // MARK: - Types
 
@@ -31,9 +31,9 @@ struct ServerErrorBody: Decodable, Sendable {
 
     // MARK: - API
 
-    /// Message from an error response, or `nil` when the body has another shape.
+    /// Сообщение из тела ошибки или `nil`, если у тела другая форма.
     static func message(in data: Data) -> String? {
-        // An unknown error body is not a failure of its own; the status code still describes it.
+        // Неизвестное тело ошибки само по себе не сбой: статус-код и так её описывает.
         try? JSONDecoder().decode(ServerErrorBody.self, from: data).message
     }
 }
