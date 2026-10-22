@@ -61,8 +61,7 @@ final class MarkdownRenderer {
 
     private func renderInline(_ text: String, attributes base: [NSAttributedString.Key: Any]) -> NSAttributedString {
         let options = AttributedString.MarkdownParsingOptions(interpretedSyntax: .inlineOnlyPreservingWhitespace)
-        // Текст, который не является корректным Markdown, — всё равно нормальный ответ, поэтому показываем его как
-        // обычный текст.
+        // Некорректный Markdown — всё равно нормальный ответ, поэтому показываем его как обычный текст.
         guard let parsed = try? AttributedString(markdown: text, options: options) else {
             return NSAttributedString(string: text, attributes: base)
         }

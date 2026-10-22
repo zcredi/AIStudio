@@ -138,8 +138,8 @@ final class AppCoordinator {
             guard let navigationController else { return }
             self?.showGenerating(id, in: navigationController)
         }
-        // Возврат сворачивает экран в карточку того шаблона, который на экране; он может отличаться от того, по
-        // которому тапнули.
+        // Возврат сворачивает экран в карточку шаблона, который сейчас на экране:
+        // в карусели могли пролистать к другому.
         zoom(templateScreen) { [weak catalog, weak templateScreen] in
             guard let templateScreen else { return nil }
             return catalog?.cardView(for: templateScreen.currentTemplateID)
