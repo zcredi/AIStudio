@@ -22,15 +22,17 @@ final class ApphudSubscriptionService {
 
     // MARK: - Properties
 
-    /// ID пользователя Apphud; API использует его как `user_id`. Может меняться во время работы, поэтому читаем его по
-    /// месту.
+    /// ID пользователя Apphud; API использует его как `user_id`.
+    /// Может меняться во время работы, поэтому читаем его по месту.
     var userID: String {
         Apphud.userID()
     }
 
+    /// Планы пейвола из макета: Year и Month.
+    private static let mockupPeriods = [SubscriptionPeriod(unit: .year, value: 1), SubscriptionPeriod(unit: .month, value: 1)]
+
     private let apiKey: String
     private let paywallIdentifier: String
-    private let fallbackProductIDs: [String]
     private let premiumSubject = CurrentValueSubject<Bool, Never>(false)
     /// Становится `true`, когда Apphud зарегистрировал пользователя или восстановил его из кэша.
     private let isStatusKnownSubject = CurrentValueSubject<Bool, Never>(false)
@@ -44,11 +46,9 @@ final class ApphudSubscriptionService {
 
     // MARK: - Init
 
-    /// `fallbackProductIDs` предлагаются в этом порядке, если в Apphud нет пейвола с именем `paywallIdentifier`.
-    init(apiKey: String, paywallIdentifier: String, fallbackProductIDs: [String]) {
+    init(apiKey: String, paywallIdentifier: String) {
         self.apiKey = apiKey
         self.paywallIdentifier = paywallIdentifier
-        self.fallbackProductIDs = fallbackProductIDs
     }
 
     // MARK: - API
@@ -111,16 +111,21 @@ final class ApphudSubscriptionService {
         return products
     }
 
-    /// App Store возвращает продукты в произвольном порядке; пейвол сохраняет заданный.
-    private func fallbackProducts() async -> [LoadedProduct] {
+    /// Планы из Product hub, если в Apphud нет пейвола `paywallIdentifier`. ID продуктов читаются из Apphud,
+    /// а не хранятся в коде, поэтому смена продуктов в дашборде не требует новой сборки.
+    /// Как в макете, показываются годовой и месячный план; если их нет, — первые доступные.
+    private func productHubProducts() async -> [LoadedProduct] {
+        let productIDs = await productHubProductIDs()
+        logger.info("Product hub products: \(productIDs.joined(separator: ", "), privacy: .public)")
         let storeProducts: [Product]
         do {
-            storeProducts = try await Product.products(for: fallbackProductIDs)
+            storeProducts = try await Product.products(for: productIDs)
         } catch {
             logger.error("Failed to load Product hub products: \(error)")
             return []
         }
-        return fallbackProductIDs.compactMap { id in
+        // App Store возвращает продукты в произвольном порядке; сохраняем порядок Product hub.
+        let available: [LoadedProduct] = productIDs.compactMap { id in
             guard
                 let storeProduct = storeProducts.first(where: { $0.id == id }),
                 let product = PaywallProduct(storeProduct)
@@ -130,6 +135,18 @@ final class ApphudSubscriptionService {
             }
             return LoadedProduct(purchasable: .store(storeProduct), product: product)
         }
+        let mockupPlans = Self.mockupPeriods.compactMap { period in
+            available.first { $0.product.period == period }
+        }
+        return mockupPlans.isEmpty ? Array(available.prefix(Self.mockupPeriods.count)) : mockupPlans
+    }
+
+    /// Все продукты групп Product hub без повторов, в порядке дашборда.
+    private func productHubProductIDs() async -> [String] {
+        var seen = Set<String>()
+        return (await Apphud.permissionGroups() ?? [])
+            .flatMap(\.productIds)
+            .filter { seen.insert($0).inserted }
     }
 
     private func outcome(isSuccess: Bool, isPending: Bool, isCancelled: Bool, error: (any Error)?) throws -> PurchaseOutcome {
@@ -173,7 +190,7 @@ extension ApphudSubscriptionService: SubscriptionPurchasing {
         let products = if let paywall {
             await storeProducts(of: paywall)
         } else {
-            await fallbackProducts()
+            await productHubProducts()
         }
         guard !products.isEmpty else { throw SubscriptionError.paywallUnavailable }
 

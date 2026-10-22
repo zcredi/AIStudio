@@ -39,8 +39,7 @@ final class AppContainer {
     init(configuration: AppConfiguration = AppConfiguration()) {
         let subscriptionService = ApphudSubscriptionService(
             apiKey: configuration.apphudAPIKey,
-            paywallIdentifier: configuration.paywallIdentifier,
-            fallbackProductIDs: configuration.fallbackProductIDs
+            paywallIdentifier: configuration.paywallIdentifier
         )
         let interceptors: [any RequestInterceptor] = [
             BearerTokenInterceptor(token: configuration.apiToken),

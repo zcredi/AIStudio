@@ -19,8 +19,6 @@ struct AppConfiguration: Sendable {
     let apiAppID = "com.test.test"
     /// Идентификатор пейвола из дашборда Apphud.
     let paywallIdentifier = "main"
-    /// Планы Year и Month из макета; берутся из Product hub, если в Apphud нет пейвола `main`.
-    let fallbackProductIDs = ["com.labs.fviu.yearly", "monthly_subscription"]
     let apiToken: String
     let apphudAPIKey: String
 
