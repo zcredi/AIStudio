@@ -17,7 +17,7 @@
         {
           "adHocOffers": [],
           "codeOffers": [],
-          "displayPrice": "69.99",
+          "displayPrice": "39.99",
           "familyShareable": false,
           "groupNumber": 1,
           "internalID": "6500000001",
@@ -29,7 +29,7 @@
               "locale": "en_US"
             }
           ],
-          "productID": "com.labs.fviu.yearly",
+          "productID": "year_39.99_nottrial",
           "recurringSubscriptionPeriod": "P1Y",
           "referenceName": "Year",
           "subscriptionGroupID": "21500000",
@@ -38,7 +38,7 @@
         {
           "adHocOffers": [],
           "codeOffers": [],
-          "displayPrice": "7.99",
+          "displayPrice": "4.99",
           "familyShareable": false,
           "groupNumber": 2,
           "internalID": "6500000004",
@@ -46,13 +46,13 @@
           "localizations": [
             {
               "description": "Unlimited access to AI chat and video templates",
-              "displayName": "Month",
+              "displayName": "Week",
               "locale": "en_US"
             }
           ],
-          "productID": "monthly_subscription",
-          "recurringSubscriptionPeriod": "P1M",
-          "referenceName": "Month",
+          "productID": "week_4.99_nottrial",
+          "recurringSubscriptionPeriod": "P1W",
+          "referenceName": "Week",
           "subscriptionGroupID": "21500000",
           "type": "RecurringSubscription"
         }

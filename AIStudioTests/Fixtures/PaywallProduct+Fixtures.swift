@@ -3,16 +3,16 @@ import Foundation
 
 extension PaywallProduct {
     static let yearly = PaywallProduct(
-        id: "com.labs.fviu.yearly",
+        id: "year_39.99_nottrial",
         period: SubscriptionPeriod(unit: .year, value: 1),
-        price: Decimal(6999) / 100,
+        price: Decimal(3999) / 100,
         priceFormat: .currency(code: "USD").locale(Locale(identifier: "en_US"))
     )
 
-    static let monthly = PaywallProduct(
-        id: "com.labs.fviu.monthly",
-        period: SubscriptionPeriod(unit: .month, value: 1),
-        price: Decimal(799) / 100,
+    static let weekly = PaywallProduct(
+        id: "week_4.99_nottrial",
+        period: SubscriptionPeriod(unit: .week, value: 1),
+        price: Decimal(499) / 100,
         priceFormat: .currency(code: "USD").locale(Locale(identifier: "en_US"))
     )
 }

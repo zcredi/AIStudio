@@ -3,9 +3,9 @@ import Foundation
 /// Вариант покупки в том виде, в каком его показывает пейвол: цена за неделю, полная цена и плашка выгоды.
 struct PaywallPlan: Identifiable, Equatable, Sendable {
     let id: PaywallProduct.ID
-    /// Период и цена за неделю, например «Year $1.35».
+    /// Период и цена за неделю, например «Year $0.77».
     let title: String
-    /// Цена за весь период, например «$69.99».
+    /// Цена за весь период, например «$39.99».
     let fullPrice: String
     /// «SAVE 80%» на плане с самой низкой ценой за неделю, `nil` на остальных.
     let savings: String?

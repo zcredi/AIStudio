@@ -28,8 +28,8 @@ final class ApphudSubscriptionService {
         Apphud.userID()
     }
 
-    /// Планы пейвола из макета: Year и Month.
-    private static let mockupPeriods = [SubscriptionPeriod(unit: .year, value: 1), SubscriptionPeriod(unit: .month, value: 1)]
+    /// В макете пейвола две карточки планов.
+    private static let maxPlanCount = 2
 
     private let apiKey: String
     private let paywallIdentifier: String
@@ -84,9 +84,11 @@ final class ApphudSubscriptionService {
     private func findPaywall() async -> ApphudPaywall? {
         // Ждёт, пока Apphud загрузит предложения; делегат получает пейволы раньше, чем это вернётся.
         let placementPaywalls = await Apphud.placements().compactMap(\.paywall)
-        let paywall = (placementPaywalls + deliveredPaywalls).first { $0.identifier == paywallIdentifier }
+        let paywalls = placementPaywalls + deliveredPaywalls
+        let paywall = paywalls.first { $0.identifier == paywallIdentifier }
         if paywall == nil {
-            logger.info("Paywall \(self.paywallIdentifier, privacy: .public) is not set up in Apphud, offering Product hub products")
+            let identifiers = paywalls.map(\.identifier).joined(separator: ", ")
+            logger.info("Paywall \(self.paywallIdentifier, privacy: .public) is not set up in Apphud (available: \(identifiers, privacy: .public)), offering Product hub products")
         }
         return paywall
     }
@@ -113,7 +115,7 @@ final class ApphudSubscriptionService {
 
     /// Планы из Product hub, если в Apphud нет пейвола `paywallIdentifier`. ID продуктов читаются из Apphud,
     /// а не хранятся в коде, поэтому смена продуктов в дашборде не требует новой сборки.
-    /// Как в макете, показываются годовой и месячный план; если их нет, — первые доступные.
+    /// Показываются продукты, которые есть в магазине, длинный период сверху, как в макете.
     private func productHubProducts() async -> [LoadedProduct] {
         let productIDs = await productHubProductIDs()
         logger.info("Product hub products: \(productIDs.joined(separator: ", "), privacy: .public)")
@@ -135,10 +137,8 @@ final class ApphudSubscriptionService {
             }
             return LoadedProduct(purchasable: .store(storeProduct), product: product)
         }
-        let mockupPlans = Self.mockupPeriods.compactMap { period in
-            available.first { $0.product.period == period }
-        }
-        return mockupPlans.isEmpty ? Array(available.prefix(Self.mockupPeriods.count)) : mockupPlans
+        let longestFirst = available.sorted { $0.product.period.weeks > $1.product.period.weeks }
+        return Array(longestFirst.prefix(Self.maxPlanCount))
     }
 
     /// Все продукты групп Product hub без повторов, в порядке дашборда.

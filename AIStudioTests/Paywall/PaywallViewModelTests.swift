@@ -17,8 +17,8 @@ final class PaywallViewModelTests: XCTestCase {
         await sut.viewModel.load().value
 
         let plans = sut.viewModel.state.plans.value
-        XCTAssertEqual(plans?.map(\.title), ["Year $1.35", "Month $1.84"])
-        XCTAssertEqual(plans?.map(\.fullPrice), ["$69.99", "$7.99"])
+        XCTAssertEqual(plans?.map(\.title), ["Year $0.77", "Week $4.99"])
+        XCTAssertEqual(plans?.map(\.fullPrice), ["$39.99", "$4.99"])
     }
 
     func test_load_withProducts_marksOnlyCheapestPerWeekWithSavings() async {
@@ -30,7 +30,7 @@ final class PaywallViewModelTests: XCTestCase {
     }
 
     func test_load_withProducts_selectsBestValuePlan() async {
-        let sut = makeSUT(products: [.monthly, .yearly])
+        let sut = makeSUT(products: [.weekly, .yearly])
 
         await sut.viewModel.load().value
 
@@ -62,13 +62,13 @@ final class PaywallViewModelTests: XCTestCase {
         // Дано
         let sut = makeSUT()
         await sut.viewModel.load().value
-        sut.viewModel.selectPlan(id: PaywallProduct.monthly.id)
+        sut.viewModel.selectPlan(id: PaywallProduct.weekly.id)
 
         // Когда
         await sut.viewModel.purchase()?.value
 
         // Тогда
-        XCTAssertEqual(sut.service.purchasedProducts, [.monthly])
+        XCTAssertEqual(sut.service.purchasedProducts, [.weekly])
     }
 
     func test_purchase_whenPurchased_grantsAccess() async {
@@ -151,7 +151,7 @@ final class PaywallViewModelTests: XCTestCase {
 
     // MARK: - Private
 
-    private func makeSUT(products: [PaywallProduct] = [.yearly, .monthly]) -> SUT {
+    private func makeSUT(products: [PaywallProduct] = [.yearly, .weekly]) -> SUT {
         let service = FakeSubscriptionService()
         service.paywallResult = .success(Paywall(products: products))
         let viewModel = PaywallViewModel(subscriptionService: service)
